@@ -2,40 +2,92 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Banner from './banner';
-import Cloner from './cloner'
 
-class Clicker extends React.Component {
+class ProsCons extends React.Component {
   constructor() {
     super();
-    this.state = {counter : 0, data: []};
-    this.click_handler = this.click_handler.bind(this);
+    this.state = {pros : [''], cons: ['']};
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount(){
     console.log('Mounted');
   }
 
-
-  click_handler(e) {
-    this.setState({counter: this.state.counter + 1, data: this.state.data.concat([1])});
+  handleChange(e) {
+    console.log(e.target.id.substr(0,1));
   }
 
   render() {
-    let styles = {color: 'red'};
+
+
+    const mainContainer = {
+      width: '70%',
+      margin: '0px auto',
+    };
+
+    const widget = {
+      width: 'calc(100%/2)',
+      height: '600px',
+      border: '1px solid black',
+      borderCollapse: 'collapse',
+    };
+
+    const header = {
+      width: '100%',
+      height: '10%',
+      textAlign: 'center',
+      borderBottom: '1px solid black',
+    };
+
+    const main = {
+      width: '100%',
+      width: '90%',
+    };
+
+    const headerStyle = {
+      display: 'block',
+      backgroundColor: '#f1f1f1',
+      color: 'white',
+      margin: '0',
+      textAlign: 'center',
+      height: '100px',
+    };
+
+    const mainWidget = {
+      display: 'flex',
+      flexDirection: 'row',
+    };
+
     return (
-      <div>
-        <br />
-        <Banner />
-        <Cloner data={this.state.data} />
-        <br />
-        <button style={styles} onClick={this.click_handler}>
-	         Click me please, counter is: {this.state.counter}
-         </button>
+      <div style={mainContainer}>
+        <h1 style={headerStyle}>Should I eat at McDonalds</h1>
+        <div style={mainWidget}>
+          <div style={widget}>
+            <div style={header}>
+              PROS
+            </div>
+            <div style={main}>
+              <ol>
+                <li><input type={'text'} onChange={this.handleChange} id={`${1}P`} /></li>
+              </ol>
+            </div>
+          </div>
+          <div style={widget}>
+            <div style={header}>
+              CONS
+            </div>
+            <div style={main}>
+              <ol>
+                <li><input type={'text'} onChange={this.handleChange} id={`${1}C`} /></li>
+              </ol>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 };
 
-ReactDOM.render(<Clicker />,
+ReactDOM.render(<ProsCons />,
 		document.getElementById('react-container'));
