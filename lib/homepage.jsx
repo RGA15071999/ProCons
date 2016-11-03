@@ -7,19 +7,42 @@ class ProsCons extends React.Component {
   constructor() {
     super();
     this.state = {pros : [''], cons: ['']};
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeP = this.handleChangeP.bind(this);
+    this.handleChangeC = this.handleChangeC.bind(this);
   }
 
   componentDidMount(){
     console.log('Mounted');
   }
 
-  handleChange(e) {
-    console.log(e.target.id.substr(0,1));
+  handleChangeP(e) {
+    const number = Number(e.target.id.substr(0,1));
+    let newArr = this.state.pros;
+    newArr[number-1] = e.target.value;
+    console.log(newArr);
+    this.setState({ pros : newArr });
+    // if(this.state.pros[number] === undefined) {
+    //   newArr.push('');
+    // }
+  }
+
+
+
+  handleChangeC(e) {
+    console.log("Yay");
   }
 
   render() {
-
+    const allPros = this.state.pros.filter((currElm) => {
+      return currElm !== "";
+    })
+    allPros.push('');
+    const listItems = allPros.map((currElm, index) => {
+      return (
+        <li><input type={'text'} onChange={this.handleChangeP} id={`${index+1}C`} />
+        </li>
+      );
+    })
 
     const mainContainer = {
       width: '70%',
@@ -69,7 +92,7 @@ class ProsCons extends React.Component {
             </div>
             <div style={main}>
               <ol>
-                <li><input type={'text'} onChange={this.handleChange} id={`${1}P`} /></li>
+                {listItems}
               </ol>
             </div>
           </div>
@@ -79,7 +102,7 @@ class ProsCons extends React.Component {
             </div>
             <div style={main}>
               <ol>
-                <li><input type={'text'} onChange={this.handleChange} id={`${1}C`} /></li>
+                <li><input type={'text'} onChange={this.handleChangeC} id={`${1}C`} /></li>
               </ol>
             </div>
           </div>
