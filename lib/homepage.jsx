@@ -8,41 +8,53 @@ class ProsCons extends React.Component {
     super();
     this.state = {pros : [''], cons: ['']};
     this.handleChangeP = this.handleChangeP.bind(this);
-    this.handleChangeC = this.handleChangeC.bind(this);
+    //this.handleChangeC = this.handleChangeC.bind(this);
   }
 
   componentDidMount(){
     console.log('Mounted');
   }
 
-  handleChangeP(e) {
-    const number = Number(e.target.id.substr(0,1));
-    let newArr = this.state.pros;
-    newArr[number-1] = e.target.value;
-    console.log(newArr);
-    this.setState({ pros : newArr });
-    // if(this.state.pros[number] === undefined) {
-    //   newArr.push('');
-    // }
+  handleChangeP(number, e) {
+    //const number = Number(e.target.id.substr(0,1));
+    const allPros = this.state.pros;
+    allPros[number] = e.target.value;
+    if(allPros[number+1] === undefined) {
+      allPros.push('');
+    }
+    if(allPros[number] === "") {
+      allPros.splice(number, 1);
+    }
+    this.setState({ pros : allPros });
   }
 
-
-
-  handleChangeC(e) {
-    console.log("Yay");
+  handleChangeC(number, e) {
+    //const number = Number(e.target.id.substr(0,1));
+    const allPros = this.state.cons;
+    allPros[number] = e.target.value;
+    if(allPros[number+1] === undefined) {
+      allPros.push('');
+    }
+    if(allPros[number] === "") {
+      allPros.splice(number, 1);
+    }
+    this.setState({ cons : allPros });
   }
 
   render() {
-    const allPros = this.state.pros.filter((currElm) => {
-      return currElm !== "";
-    })
-    allPros.push('');
-    const listItems = allPros.map((currElm, index) => {
+    const listItems = this.state.pros.map((currElm, index) => {
       return (
-        <li><input type={'text'} onChange={this.handleChangeP} id={`${index+1}C`} />
+        <li><input type={'text'} onChange={this.handleChangeP.bind(this, index)} value={`${currElm}`} />
         </li>
       );
-    })
+    });
+
+    const listItemsC = this.state.cons.map((currElm, index) => {
+      return (
+        <li><input type={'text'} onChange={this.handleChangeC.bind(this, index)} value={`${currElm}`} />
+        </li>
+      );
+    });
 
     const mainContainer = {
       width: '70%',
@@ -102,7 +114,7 @@ class ProsCons extends React.Component {
             </div>
             <div style={main}>
               <ol>
-                <li><input type={'text'} onChange={this.handleChangeC} id={`${1}C`} /></li>
+                {listItemsC}
               </ol>
             </div>
           </div>
